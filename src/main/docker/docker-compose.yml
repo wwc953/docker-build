@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  redis1:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8001/data:/data
+    environment:
+      - REDIS_PORT=8001
+
+  redis2:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8002/data:/data
+    environment:
+      - REDIS_PORT=8002
+
+  redis3:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8003/data:/data
+    environment:
+      - REDIS_PORT=8003
+
+  redis4:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8004/data:/data
+    environment:
+      - REDIS_PORT=8004
+
+  redis5:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8005/data:/data
+    environment:
+      - REDIS_PORT=8005
+
+  redis6:
+    image: publicisworldwide/redis-cluster
+    network_mode: host
+    restart: always
+    volumes:
+      - /data/redis/8006/data:/data
+    environment:
+      - REDIS_PORT=8006
