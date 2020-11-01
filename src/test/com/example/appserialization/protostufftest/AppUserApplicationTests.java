@@ -23,6 +23,32 @@ class AppUserApplicationTests {
     @Autowired
     RedisUtil redisUtil;
 
+    String map = "local array = {}\n" +
+            "local arrayLength = 1\n" +
+            "if (redis.call(\"llen\", KEYS[1]) > tonumber(ARGV[1])) then\n" +
+            "    arrayLength = tonumber(ARGV[1])\n" +
+            "else\n" +
+            "    arrayLength = redis.call(\"llen\", KEYS[1])\n" +
+            "end\n" +
+            "for i = 1, arrayLength do\n" +
+            "    array[i] = redis.call(\"rpop\", KEYS[1])\n" +
+            "end\n" +
+            "array[table.getn(array) + 1] = redis.call(\"llen\", KEYS[1])\n" +
+            "return array";
+
+    @Test
+    void rpopMap() {
+        String key = "aa";
+        int size = 5;
+//        Map<String, Object> mm = (Map<String, Object>) jedisCluster.eval(map, Collections.singletonList(key), Collections.singletonList(String.valueOf(size)));
+//        Long size1 = (Long) mm.get("size");
+//        List<String> list = (List<String>) mm.get("list");
+//        System.out.println(JSON.toJSONString(mm));
+
+        List<String> eval = (List<String>)jedisCluster.eval(map, Collections.singletonList(key), Collections.singletonList(String.valueOf(size)));
+        System.out.println(JSON.toJSONString(eval));
+    }
+
     @Test
     void luaget() {
         String key = "aa1";

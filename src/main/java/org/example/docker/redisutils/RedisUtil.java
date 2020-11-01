@@ -22,17 +22,17 @@ import java.util.stream.Collectors;
 public class RedisUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisUtil.class);
 
-    public static final String rpopScript = "local array = {};\n" +
-            "local arrayLength = 1;\n" +
+    public static final String rpopScript = "local array = {}\n" +
+            "local arrayLength = 1\n" +
             "if (redis.call(\"llen\", KEYS[1]) > tonumber(ARGV[1])) then\n" +
-            "    arrayLength = tonumber(ARGV[1]);\n" +
+            "    arrayLength = tonumber(ARGV[1])\n" +
             "else\n" +
-            "    arrayLength = redis.call(\"llen\", KEYS[1]);\n" +
+            "    arrayLength = redis.call(\"llen\", KEYS[1])\n" +
             "end\n" +
             "for i = 1, arrayLength do\n" +
-            "    array[i] = redis.call(\"rpop\", KEYS[1]);\n" +
+            "    array[i] = redis.call(\"rpop\", KEYS[1])\n" +
             "end\n" +
-            "return array;";
+            "return array";
 
     @Autowired
     private JedisCluster jedisCluster;
