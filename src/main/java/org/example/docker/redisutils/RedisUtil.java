@@ -37,6 +37,12 @@ public class RedisUtil {
     @Autowired
     private JedisCluster jedisCluster;
 
+    /**
+     * 批量获取rpop
+     * @param key
+     * @param size
+     * @return
+     */
     public List<String> rpop(String key, int size) {
         List<String> resultList = null;
         try {
@@ -51,6 +57,12 @@ public class RedisUtil {
         return resultList;
     }
 
+    /**
+     * 批量获取rpop
+     * @param key
+     * @param size
+     * @return
+     */
     public <T> List<T> rpop(String key, int size, Class<T> clazz) {
         List<String> resultList = rpop(key, size);
         List<T> collect = null;
@@ -62,6 +74,18 @@ public class RedisUtil {
             }
         }
         return collect;
+    }
+
+    /**
+     * 批量lpush
+     * @param key
+     * @param collection
+     * @return
+     */
+    public Long lpush(String key, List<?> collection) {
+        String[] array = collection.parallelStream().map(v -> JSON.toJSONString(v)).toArray(String[]::new);
+        Long res = jedisCluster.lpush(key, array);
+        return res;
     }
 
     /**
@@ -153,5 +177,6 @@ public class RedisUtil {
         jedisCluster.del(key);
         LOGGER.debug("RedisUtil:delete cache key={}", key);
     }
+
 
 }
