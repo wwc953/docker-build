@@ -28,6 +28,8 @@ public class RedisClusterConfig {
     private int timeout;
     @Value("${spring.redis.jedis.pool.max-idle}")
     private int maxIdle;
+    @Value("${spring.redis.jedis.pool.maxTotal}")
+    private int maxTotal;
     @Value("${spring.redis.jedis.pool.max-wait}")
     private long maxWaitMillis;
     @Value("${spring.redis.commandTimeout}")
@@ -43,6 +45,7 @@ public class RedisClusterConfig {
         }
         JedisPoolConfig jedisPoolConfig =new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(maxIdle);
+        jedisPoolConfig.setMaxTotal(maxTotal);
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         //创建集群对象
         return new JedisCluster(nodes,commandTimeout,jedisPoolConfig);
