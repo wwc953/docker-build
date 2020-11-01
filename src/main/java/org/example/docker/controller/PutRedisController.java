@@ -75,7 +75,7 @@ public class PutRedisController {
         System.out.println("kryo序列化时间：" + (System.currentTimeMillis() - begin) + "ms,大小：" + bytes.length + "B," + bb + "KB," + mm + "MB");
 
         long begin3 = System.currentTimeMillis();
-        String key = "kryo:" + System.nanoTime();
+        String key = "kryo:" + System.nanoTime() + String.valueOf(begin3).substring(8);
         System.out.println("key=" + key);
         redisUtil.set(key.getBytes(Charset.forName(chartSetName)), bytes);
         System.out.println("set Redis时间：" + (System.currentTimeMillis() - begin3) + "ms");
@@ -101,7 +101,7 @@ public class PutRedisController {
         System.out.println("json序列化时间：" + (System.currentTimeMillis() - begin) + "ms,大小：" + bytes.length + "B," + bb + "KB," + mm + "MB");
 
         long begin3 = System.currentTimeMillis();
-        String key = "json:" + System.nanoTime();
+        String key = "json:" + System.nanoTime() + String.valueOf(begin3).substring(8);
         System.out.println("key=" + key);
         redisUtil.set(key.getBytes(Charset.forName(chartSetName)), bytes);
         System.out.println("set Redis时间：" + (System.currentTimeMillis() - begin3) + "ms");
