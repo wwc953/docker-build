@@ -34,7 +34,6 @@ public class PutRedisController {
 
     String chartSetName = "UTF-8";
 
-
     @GetMapping("/t/{type}/{size}")
     public String put(@PathVariable String type, @PathVariable int size) {
         List<Person> args = new ArrayList<Person>();
@@ -55,6 +54,7 @@ public class PutRedisController {
                 kryo(args, size);
                 break;
             case "pf":
+
                 break;
             case "json":
                 json(args);

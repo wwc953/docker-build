@@ -1,11 +1,17 @@
 package org.example.docker.redisutils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.example.docker.po.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisCluster;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Description: TODO
@@ -15,8 +21,48 @@ import redis.clients.jedis.JedisCluster;
 @Component
 public class RedisUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisUtil.class);
+
+    public static final String rpopScript = "local array = {};\n" +
+            "local arrayLength = 1;\n" +
+            "if (redis.call(\"llen\", KEYS[1]) > tonumber(ARGV[1])) then\n" +
+            "    arrayLength = tonumber(ARGV[1]);\n" +
+            "else\n" +
+            "    arrayLength = redis.call(\"llen\", KEYS[1]);\n" +
+            "end\n" +
+            "for i = 1, arrayLength do\n" +
+            "    array[i] = redis.call(\"rpop\", KEYS[1]);\n" +
+            "end\n" +
+            "return array;";
+
     @Autowired
     private JedisCluster jedisCluster;
+
+    public List<String> rpop(String key, int size) {
+        List<String> resultList = null;
+        try {
+            resultList = (List<String>) jedisCluster.eval(rpopScript, Collections.singletonList(key), Collections.singletonList(String.valueOf(size)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (resultList != null) {
+                jedisCluster.lpush(key, resultList.toArray(new String[resultList.size()]));
+            }
+            return null;
+        }
+        return resultList;
+    }
+
+    public <T> List<T> rpop(String key, int size, Class<T> clazz) {
+        List<String> resultList = rpop(key, size);
+        List<T> collect = null;
+        try {
+            collect = resultList.parallelStream().map(v -> JSONObject.parseObject(v, clazz)).collect(Collectors.toList());
+        } catch (Exception e) {
+            if (resultList != null) {
+                jedisCluster.lpush(key, resultList.toArray(new String[resultList.size()]));
+            }
+        }
+        return collect;
+    }
 
     /**
      * 设置缓存
@@ -102,4 +148,10 @@ public class RedisUtil {
         jedisCluster.del(key);
         LOGGER.debug("RedisUtil:delete cache key={}", key);
     }
+
+    public void delete(byte[] key) {
+        jedisCluster.del(key);
+        LOGGER.debug("RedisUtil:delete cache key={}", key);
+    }
+
 }
