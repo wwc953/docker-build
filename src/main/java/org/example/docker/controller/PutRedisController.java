@@ -2,11 +2,10 @@ package org.example.docker.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.example.docker.kryo2.KryoSerializer;
 import org.example.docker.po.Person;
-import org.example.docker.redisutils.RedisUtil;
+import org.example.docker.redisutils.RedisClusterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +17,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @Description: TODO
@@ -30,7 +28,7 @@ import java.util.UUID;
 public class PutRedisController {
 
     @Autowired
-    RedisUtil redisUtil;
+    RedisClusterUtil redisUtil;
 
     String chartSetName = "UTF-8";
 

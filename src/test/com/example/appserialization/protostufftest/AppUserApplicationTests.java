@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.example.docker.Application;
 import org.example.docker.po.Person;
-import org.example.docker.redisutils.RedisUtil;
+import org.example.docker.redisutils.RedisClusterUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -2,7 +2,6 @@ package org.example.docker.redisutils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.example.docker.po.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,8 @@ import java.util.stream.Collectors;
  * @date: 2020/11/1 14:34
  */
 @Component
-public class RedisUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisUtil.class);
+public class RedisClusterUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisClusterUtil.class);
 
     public static final String rpopScript = "local array = {}\n" +
             "local arrayLength = redis.call(\"llen\", KEYS[1])\n" +
