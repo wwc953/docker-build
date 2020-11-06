@@ -176,5 +176,7 @@ public class RedisUtil {
         LOGGER.debug("RedisUtil:delete cache key={}", key);
     }
 
+    //Redis Stream 5.0版本开始支持   jedis:3.2.0
+
 
 }
