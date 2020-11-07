@@ -57,13 +57,15 @@ public class RedisController {
                           @RequestParam("stream") String stream) {
 
         Map<String, StreamEntryID> t = new HashMap();
-        t.put(stream, null);//null 则为 > 重头读起，也可以为$接受新消息，还可以是上一次未读完的消息id
+        t.put(stream, StreamEntryID.UNRECEIVED_ENTRY); //null 则为 > 重头读起，也可以为$接受新消息，还可以是上一次未读完的消息id
+//        t.put(stream, StreamEntryID.LAST_ENTRY);//从最后开始接受
         Map.Entry e = null;
         for (Map.Entry c : t.entrySet()) {
             e = c;
         }
 
         //noAck为false的话需要手动ack，true则自动ack. commsumer新建的方式为xreadgroup
+        //count 一次消费的数量
         List<Map.Entry<String, StreamEntryID>> list = jedis.xreadGroup(group, consumer, count, 0, false, e);
         if (list == null) {
             System.out.println("无数据....");
@@ -82,7 +84,7 @@ public class RedisController {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                int i = 1/0;
+                int i = 1 / 0;
                 long xack = jedis.xack(stream, group, l.get(0).getID());
                 System.out.println("消息消费成功" + xack);
             }
