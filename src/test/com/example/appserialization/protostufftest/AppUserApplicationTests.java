@@ -1,19 +1,19 @@
 package com.example.appserialization.protostufftest;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.example.docker.Application;
 import org.example.docker.po.Person;
 import org.example.docker.redisutils.RedisClusterUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import redis.clients.jedis.BinaryClient;
 import redis.clients.jedis.JedisCluster;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootTest(classes = Application.class)
 class AppUserApplicationTests {
@@ -21,7 +21,7 @@ class AppUserApplicationTests {
     @Autowired
     private JedisCluster jedisCluster;
     @Autowired
-    RedisUtil redisUtil;
+    RedisClusterUtil redisUtil;
 
     String map = "local array = {}\n" +
             "local arrayLength = 1\n" +
